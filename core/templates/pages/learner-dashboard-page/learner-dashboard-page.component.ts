@@ -219,6 +219,7 @@ export class LearnerDashboardPageComponent implements OnInit, OnDestroy {
           responseData.topicsToLearnList);
         this.untrackedTopics = (
           responseData.untrackedTopics);
+          console.log(this.untrackedTopics,"bhole");
         this.allTopics = (
           responseData.allTopicsList);
         this.learntToPartiallyLearntTopics = (

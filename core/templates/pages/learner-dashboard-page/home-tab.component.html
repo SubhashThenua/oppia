@@ -1,37 +1,108 @@
 <div class="home-tab">
-  <div class="greeting" [ngStyle]="!windowIsNarrow && {'margin-top': '64px'}">
+  <div class="greeting" [ngStyle]="!windowIsNarrow && {'margin-top': '28px'}">
     {{ getTimeOfDay() | translate }}, {{ username }}!
   </div>
-  <div class="continue-where-you-left-off" *ngIf="isNonemptyObject(untrackedTopics) || continueWhereYouLeftOffList.length !== 0">
+
+    <!-- continue where you left off started -->
+  <!-- <div class="continue-where-you-left-off" *ngIf="isNonemptyObject(untrackedTopics) || continueWhereYouLeftOffList.length !== 0"> -->
+  <div class="continue-where-you-left-off" *ngIf="continueWhereYouLeftOffList.length !== 0">
+
+
+    <!-- continue where you left off heading -->
     <p class="continue-where-you-left-off-heading"
        [innerHTML]="'I18N_LEARNER_DASHBOARD_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION' | translate" *ngIf="continueWhereYouLeftOffList.length !== 0">
     </p>
-    <p class="continue-where-you-left-off-heading"
+
+    <!-- Get started -->
+    <!-- <p class="continue-where-you-left-off-heading"
        [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION_HEADING' | translate"
        *ngIf="continueWhereYouLeftOffList.length === 0">
-    </p>
-    <div class="empty-continue-where-you-left-off-section" *ngIf="continueWhereYouLeftOffList.length === 0">
-      <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION' | translate" class="empty-continue-where-you-left-off-section-text">
-      </p>
-      <a id="setting-a-goal-link" (click)="changeActiveSection()">
-        <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION_SET_A_GOAL' | translate" class="empty-continue-where-you-left-off-section-text">
-        </p>
+    </p> -->
+
+
+    <!-- <div class="empty-continue-where-you-left-off-section" *ngIf="continueWhereYouLeftOffList.length === 0"> -->
+
+      <!-- start learning -->
+      <!-- <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION' | translate" class="empty-continue-where-you-left-off-section-text"> -->
+      <!-- </p> -->
+
+
+      <!-- setting a goal  -->
+      <!-- <a id="setting-a-goal-link" (click)="changeActiveSection()"> -->
+        <!-- <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_CONTINUE_WHERE_YOU_LEFT_OFF_SECTION_SET_A_GOAL' | translate" class="empty-continue-where-you-left-off-section-text"> -->
+        <!-- </p>
       </a>
-    </div>
+    </div> -->
+
+    <!-- Get started ends -->
+
+
+
     <div class="continue-where-you-left-off-scroll">
-      <div class="continue-where-you-left-off-section" *ngIf="continueWhereYouLeftOffList.length !== 0"
-        [ngStyle]="windowIsNarrow && {'width': width + 'px'}">
-        <div *ngFor="let topicSummaryTile of continueWhereYouLeftOffList" class="topic-summary">
-          <div *ngFor="let storySummaryTile of topicSummaryTile.canonicalStorySummaryDicts; let i = index"
-               class="story-summary-tile">
-            <oppia-learner-story-summary-tile [storySummary]="storySummaryTile" [displayArea]="'homeTab'"
-              [topicName]="topicSummaryTile.name">
-            </oppia-learner-story-summary-tile>
+      <!-- <div class="continue-where-you-left-off-section" *ngIf="continueWhereYouLeftOffList.length !== 0"
+        [ngStyle]="windowIsNarrow && {'width': width + 'px'}"> -->
+        <div class="continue-where-you-left-off-section-content">
+
+
+
+
+
+          <div *ngIf="storyInProgress.length !== 0">
+            <h3>In progress</h3>
+            <!-- <div *ngFor="let topicSummaryTile of continueWhereYouLeftOffList" class="topic-summary">
+              <div *ngFor="let storySummaryTile of topicSummaryTile.canonicalStorySummaryDicts; let i = index"
+                   class="story-summary-tile">
+                <oppia-learner-story-summary-tile [storySummary]="storySummaryTile" [displayArea]="'homeTab'"
+                  [topicName]="topicSummaryTile.name">
+                </oppia-learner-story-summary-tile>
+              </div>
+            </div> -->
+
+            <div *ngFor="let storySummaryTile of storyInProgress">
+              <oppia-learner-story-summary-tile [storySummary]="storySummaryTile.storySummary" [displayArea]="'homeTab'"
+                  [topicName]="storySummaryTile.topicName">
+                </oppia-learner-story-summary-tile>
+            </div>
+
           </div>
+
+
+
+
+
+
+
+          <div *ngIf="storyInRecommended.length !==0">
+            <h3>Recommended for you </h3>
+            <!-- <div *ngFor="let topicSummaryTile of continueWhereYouLeftOffList" class="topic-summary">
+              <div *ngFor="let storySummaryTile of topicSummaryTile.canonicalStorySummaryDicts; let i = index"
+                   class="story-summary-tile">
+                <oppia-learner-story-summary-tile [storySummary]="storySummaryTile" [displayArea]="'homeTab'"
+                  [topicName]="topicSummaryTile.name">
+                </oppia-learner-story-summary-tile>
+              </div>
+            </div> -->
+
+            <div *ngFor="let storySummaryTile of storyInRecommended">
+              <oppia-learner-story-summary-tile [storySummary]="storySummaryTile.storySummary" [displayArea]="'homeTab'"
+                  [topicName]="storySummaryTile.topicName">
+                </oppia-learner-story-summary-tile>
+            </div>
+          </div>
+
+
+
+
+
+
+
         </div>
-      </div>
+      <!-- </div> -->
     </div>
   </div>
+<!-- continue where you left off ends -->
+
+<!-- learn some thing new started -->
   <div class="suggested-for-you e2e-test-suggested-for-you" *ngIf="isNonemptyObject(untrackedTopics) && !isGoalLimitReached()">
     <p class="suggested-for-you-heading" [innerHTML]="'I18N_LEARNER_DASHBOARD_LEARN_SOMETHING_NEW_SECTION' | translate">
     </p>
@@ -43,7 +114,7 @@
         <div class="topic-summary-tile-scroll">
           <div class="topic-summary-tile-section d-flex"
             [ngStyle]="windowIsNarrow && {'width': getWidth(item.value.length) + 'px'}">
-            <div *ngFor="let topicSummaryTile of item.value.slice(0,3)" class="topic-summary-tile">
+            <div *ngFor="let topicSummaryTile of item.value" class="topic-summary-tile">
               <oppia-learner-topic-summary-tile [topicSummary]="topicSummaryTile">
               </oppia-learner-topic-summary-tile>
             </div>
@@ -60,7 +131,10 @@
       </div>
     </div>
   </div>
-  <div class="empty-suggested-for-you"
+  <!-- learn some thing new ends -->
+
+  <!-- if learnsome thing new have no topics  -->
+  <!-- <div class="empty-suggested-for-you"
        *ngIf="isGoalLimitReached()">
     <p class="suggested-for-you-heading" [innerHTML]="'I18N_LEARNER_DASHBOARD_LEARN_SOMETHING_NEW_SECTION' | translate"></p>
     <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_LEARN_SOMETHING_NEW_SECTION' | translate" class="mt-4"></p>
@@ -70,14 +144,23 @@
        [smartRouterLink]="communityLibraryUrl"
        [oppiaFocusOn]="'ourLessonsBtn'">
     </a>
-  </div>
-  <div class="empty-suggested-for-you learn-something-new-section"
+  </div> -->
+
+
+<!-- Learn some thing div  -->
+  <!-- <div class="empty-suggested-for-you learn-something-new-section"
        *ngIf="!isNonemptyObject(untrackedTopics) && continueWhereYouLeftOffList.length === 0">
+
+    //learn some thing new heading
     <p class="suggested-for-you-heading" [innerHTML]="'I18N_LEARNER_DASHBOARD_LEARN_SOMETHING_NEW_SECTION' | translate">
     </p>
+
+    //wow you have completed .....
     <div class="empty-suggested-for-you-section">
       <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_SUGGESTED_FOR_YOU_SECTION' | translate">
       </p>
     </div>
-  </div>
+  </div> -->
+
+
 </div>

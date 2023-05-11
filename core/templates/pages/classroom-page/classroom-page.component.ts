@@ -97,6 +97,9 @@ export class ClassroomPageComponent implements OnDestroy {
         this.classroomBackendApiService.onInitializeTranslation.emit();
         this.siteAnalyticsService.registerClassroomPageViewed();
         if (classroomData && classroomData.getTopicSummaries().length > 0) {
+
+          console.log(classroomData.getTopicSummaries(),"classroom data summaries");
+          
           let firstTopic = classroomData.getTopicSummaries()[0].name;
           this.firstTopicUrl = '/learn/math/' + (
             classroomData.getTopicSummaries()[0].urlFragment);

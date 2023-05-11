@@ -6,7 +6,10 @@
 
 .oppia-learner-dashboard-container {
   margin: 0 auto 30px auto;
-  max-width: 1400px;
+  /* max-width: 1400px; */
+  display: flex;
+  justify-content: center;
+  gap: 33px;
   text-align: left;
 }
 
@@ -81,11 +84,14 @@ oppia-learner-dashboard-page .oppia-svg-image {
 }
 
 .oppia-learner-dashboard-menu {
+  border: 2px solid white;
+  border-radius: 4px;
   cursor: pointer;
   font-family: "Roboto", Arial, sans-serif;
   font-size: 18px;
-  margin: 0;
-  padding: 17px 20px 17px 20px;
+  line-height: 0.9;
+  margin: 10px 0;
+  padding: 14px 20px;
 }
 
 .oppia-learner-dashboard-menu:focus {
@@ -93,18 +99,26 @@ oppia-learner-dashboard-page .oppia-svg-image {
 }
 
 .oppia-learner-dashboard-section-active {
-  background-color: rgba(0, 100, 92, 0.1);
-  color: #00645c;
+  background-color: #fff !important;
+  color: rgb(40,53,147);
+  border-radius: 8px;
 }
 
 .oppia-learner-dashborad-menu-hover:hover {
-  background-color: rgba(0, 100, 92, 0.1);
+  border-radius: 4px;
 }
 
 .oppia-learner-dashboard-side-content {
+  margin-top: -47px;
   min-width: 241px;
-  padding-left: 100px;
+  padding-left: 13px;
   width: 20%;
+}
+
+.oppia-learner-dashboard-side-content-container {
+  flex-wrap: nowrap;
+  margin-right: -15px;
+  margin-left: -75px;
 }
 
 .oppia-learner-dashboard-main-content {
@@ -124,10 +138,34 @@ oppia-learner-dashboard-page .oppia-svg-image {
 }
 
 .oppia-learner-dashboard-main-menu {
-  background-color: white;
-  height: auto;
+  background-color: #00645c;
+  color: white;
+  height: 67rem;
   margin: 64px 0 0 0;
   padding: 0;
+}
+
+.oppia-learner-dashboard-menu-profile-picture {
+  height: 65px;
+  width: 65px;
+  margin: 3rem 0 3rem 1rem;
+}
+
+.oppia-learner-dashboard-menu-footer-hover:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.oppia-learner-dashboard-menu-footer-link {
+  color: white;
+  display: block;
+  font-size: 18px;
+  margin: 2rem 0;
+  padding: 0;
+}
+
+.oppia-learner-dashboard-menu-footer {
+  margin: 21rem 0 0 2rem;
 }
 
 .oppia-learner-dashboard-mobile-mode {

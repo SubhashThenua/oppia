@@ -95,6 +95,9 @@ export class GoalsTabComponent implements OnInit {
       '/learner_dashboard/book_icon.png');
     this.starImageUrl = this.getStaticImageUrl('/learner_dashboard/star.svg');
     let topic: LearnerTopicSummary;
+
+    console.log(this.untrackedTopics,"bhole");
+
     for (topic of this.currentGoals) {
       this.topicIdsInCurrentGoals.push(topic.id);
     }
@@ -120,6 +123,8 @@ export class GoalsTabComponent implements OnInit {
       this.windowDimensionService.getResizeEvent().subscribe(() => {
         this.windowIsNarrow = this.windowDimensionService.isWindowNarrow();
       }));
+      
+
   }
 
   getTopicPageUrl(
@@ -174,17 +179,21 @@ export class GoalsTabComponent implements OnInit {
         this.topicIdsInCurrentGoals.push(activityId);
         this.editGoalsTopicClassification.splice(
           index, 1, this.getTopicClassification(topic.id));
-        if (this.untrackedTopics[topic.classroom]) {
-          let indexInNewTopics = this.untrackedTopics[
-            topic.classroom].findIndex(
-            topic => topic.id === topicId);
-          if (indexInNewTopics !== -1) {
-            this.untrackedTopics[topic.classroom].splice(indexInNewTopics, 1);
-            if (this.untrackedTopics[topic.classroom].length === 0) {
-              delete this.untrackedTopics[topic.classroom];
-            }
-          }
-        }
+
+
+        // if (this.untrackedTopics[topic.classroom]) {
+        //   let indexInNewTopics = this.untrackedTopics[
+        //     topic.classroom].findIndex(
+        //     topic => topic.id === topicId);
+        //   if (indexInNewTopics !== -1) {
+        //     this.untrackedTopics[topic.classroom].splice(indexInNewTopics, 1);
+        //     if (this.untrackedTopics[topic.classroom].length === 0) {
+        //       delete this.untrackedTopics[topic.classroom];
+        //     }
+        //   }
+        // }
+
+
       }
     }
   }

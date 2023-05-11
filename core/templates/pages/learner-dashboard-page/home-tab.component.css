@@ -14,8 +14,9 @@
   box-shadow: 0 0 4px #0000001a;
   margin: 18px 0 25px 0;
   min-height: 179px;
-  padding: 32px 0 30px 40px;
-  width: 736px;
+  padding: 17px 0 30px 15px;
+  /* padding: 32px 0 30px 40px; */
+  /* width: 736px; */
 }
 .home-tab .suggested-for-you .classroom-name {
   color: #333;
@@ -83,6 +84,7 @@
 
 .home-tab .empty-suggested-for-you.learn-something-new-section {
   padding: 32px 23px 0 32px;
+  width: 95%;
 }
 
 .home-tab .suggested-for-you,
@@ -92,8 +94,9 @@
   box-shadow: 0 0 4px #0000001a;
   margin: 18px 0 25px 0;
   min-height: 206px;
-  padding: 32px 30px 30px 40px;
-  width: 736px;
+  padding: 17px 30px 30px 15px;
+  /* padding: 32px 30px 30px 40px; */
+  /* width: 736px; */
 }
 .home-tab .suggested-for-you .suggested-for-you-section {
   display: inline-block;
@@ -207,4 +210,10 @@
   .home-tab .greeting {
     margin-left: 0;
   }
+}
+
+.continue-where-you-left-off-section-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

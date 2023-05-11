@@ -26,6 +26,12 @@ import { WindowDimensionsService } from 'services/contextual/window-dimensions.s
 import { I18nLanguageCodeService } from 'services/i18n-language-code.service';
 
 import './home-tab.component.css';
+import { StorySummary } from 'domain/story/story-summary.model';
+
+interface storySummaryTile {
+  topicName: string;
+  storySummary: StorySummary;
+}
 
  @Component({
    selector: 'oppia-home-tab',
@@ -50,8 +56,15 @@ export class HomeTabComponent {
   nextIncompleteNodeTitles: string[] = [];
   widthConst: number = 233;
   continueWhereYouLeftOffList: LearnerTopicSummary[] = [];
+  storyInProgress: storySummaryTile[] = [];
+  storyInRecommended: storySummaryTile[] = [];
   windowIsNarrow: boolean = false;
   directiveSubscriptions = new Subscription();
+  nodeCount!: number;
+  completedNodeCount!: number;
+  storyProgress!: number;
+  topicSummaryTile: LearnerTopicSummary;
+  storySummary: StorySummary;
 
   constructor(
     private i18nLanguageCodeService: I18nLanguageCodeService,
@@ -75,6 +88,34 @@ export class HomeTabComponent {
         this.continueWhereYouLeftOffList.push(allGoals[index]);
       }
     }
+
+  for(var topicSummaryTile of this.continueWhereYouLeftOffList) {
+    for(var storySummary of topicSummaryTile.canonicalStorySummaryDicts) {
+    this.nodeCount = storySummary.getNodeTitles().length;
+    this.completedNodeCount = storySummary.getCompletedNodeTitles().length;
+    this.storyProgress = Math.floor(
+      (this.completedNodeCount / this.nodeCount) * 100);
+      if(this.storyProgress !==0) {
+        var storyData: storySummaryTile = {
+          topicName: topicSummaryTile.name,
+          storySummary: storySummary
+        }
+        this.storyInProgress.push(storyData);
+      }
+
+      if(this.storyProgress ===0) {
+        console.log(this.storyProgress,"bhole");
+        var storyData: storySummaryTile = {
+          topicName: topicSummaryTile.name,
+          storySummary: storySummary
+        }
+        this.storyInRecommended.push(storyData);
+      }
+    }
+  }
+
+
+    
     this.windowIsNarrow = this.windowDimensionService.isWindowNarrow();
     this.directiveSubscriptions.add(
       this.windowDimensionService.getResizeEvent().subscribe(() => {
