@@ -47,7 +47,7 @@ export class LearnerStorySummaryTileComponent implements OnInit {
   thumbnailBgColor!: string;
   starImageUrl!: string;
   storyCompleted: boolean = false;
-  cardIsHovered: boolean = false;
+  buttonIsHovered: boolean = false;
   openInNewWindow = false;
 
   constructor(
@@ -131,11 +131,11 @@ export class LearnerStorySummaryTileComponent implements OnInit {
     return this.urlInterpolationService.getStaticImageUrl(imagePath);
   }
 
-  isCardHovered(): string {
-    if (this.displayArea === 'homeTab' && this.cardIsHovered) {
-      return '-webkit-filter: blur(2px); filter: blur(2px);';
+  isButtonHovered(): string {
+    if (this.displayArea === 'homeTab' && this.buttonIsHovered) {
+      return 'box-shadow: 0 5px 5px -5px #333;';
     }
-    return 'height: 144px; width: 192px;';
+    // return 'height: 144px; width: 192px;';
   }
 }
 

@@ -214,6 +214,6 @@
 
 .continue-where-you-left-off-section-content {
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
 }

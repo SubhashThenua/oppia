@@ -123,10 +123,10 @@ describe('Learner Story Summary Tile Component', () => {
   });
 
   it('should make the tile blurred if it is hovered', () => {
-    component.cardIsHovered = true;
+    component.buttonIsHovered = true;
     component.displayArea = 'homeTab';
-    expect(component.isCardHovered()).toBe(
-      '-webkit-filter: blur(2px); filter: blur(2px);');
+    expect(component.isButtonHovered()).toBe(
+      'box-shadow: 0 5px 5px -5px #333;');
   });
 
   it('should get story link url for exploration page on homeTab', () => {
