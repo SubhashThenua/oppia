@@ -6747,7 +6747,7 @@ export default {
       "META": []
     },
     "CLASSROOM": {
-      "ROUTE": "learn/:classroom_url_fragment",
+      "ROUTE": "learn/math",
       "TITLE": "Oppia",
       "LIGHTWEIGHT": true,
       // Some routes contain url fragments, as syntax for url fragments are

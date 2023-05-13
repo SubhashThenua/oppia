@@ -1,17 +1,17 @@
-<background-banner *ngIf="!windowIsNarrow || (windowIsNarrow && activeSection === LEARNER_DASHBOARD_SECTION_I18N_IDS.HOME)"></background-banner>
+<background-banner *ngIf="!windowIsNarrow"></background-banner>
 <div [ngStyle]="{'min-height': windowIsNarrow ? '85.5vh': 'auto'}"
-     class="oppia-learner-dashboard-container position-relative">
-  <div class="row oppia-row"
+     class="oppia-feedback-updates-container position-relative">
+  <div class="feedback-updates-content-row"
        [ngStyle]="windowIsNarrow ? {'display': 'block'} : {'display': 'flex'}"
-       [ngClass]="{'oppia-learner-dashboard-mobile-mode': windowIsNarrow}">
+       [ngClass]="{'oppia-feedback-updates-mobile-mode': windowIsNarrow}">
 
 
-    <div class="oppia-learner-dashboard-main-content"
-         [ngClass]="{'oppia-learner-dashboard-mobile-mode': windowIsNarrow}">
+    <div class="oppia-feedback-updates-main-content"
+         [ngClass]="{'oppia-feedback-updates-mobile-mode': windowIsNarrow}">
       <div>
-        <span class="sort-explorations-select oppia-learner-dashboard-sort oppia-sort-options"
+        <span class="sort-explorations-select oppia-feedback-updates-sort oppia-sort-options"
               *ngIf="threadSummaries.length !== 0 && !feedbackThreadActive"
-              [ngClass]="{'oppia-learner-dashboard-sort-mobile': windowIsNarrow}">
+              [ngClass]="{'oppia-feedback-updates-sort-mobile': windowIsNarrow}">
           <p class="sort-by-text mt-0">Sort By</p>
           <select [(ngModel)]="currentFeedbackThreadsSortType"
                   class="sort-options oppia-sort-options"
@@ -27,22 +27,24 @@
           </span>
         </span>
       </div>
-      <div class="oppia-learner-dashboard-main-content-container d-flex"
-           [ngClass]="{'pl-5': !windowIsNarrow, 'justify-content-center': windowIsNarrow}">
+      <!-- <div class="oppia-learner-dashboard-main-content-container d-flex"
+           [ngClass]="{'pl-5': !windowIsNarrow, 'justify-content-center': windowIsNarrow}"> -->
+      <div class="oppia-feedback-updates-main-content-container d-flex"
+      [ngClass]="{'justify-content-center': windowIsNarrow}">
 
 
-        <div class="oppia-learner-dashboard-feedback-section oppia-feedback-section-top-margin w-100"
+        <div class="oppia-feedback-updates-page-feedback-section oppia-feedback-section-top-margin w-100"
              [ngStyle]="threadSummaries.length !== 0 && {'cursor': 'pointer'}">
-          <mat-card class="oppia-learner-dashboard-no-activity-card layout-row"
+          <mat-card class="oppia-feedback-updates-page-no-activity-card layout-row"
                     *ngIf="threadSummaries.length === 0">
             <div>
-              <span class="oppia-learner-dashboard-main-content-title">
+              <span class="oppia-feedback-updates-main-content-title">
                 <span [innerHTML]="activeSection | translate">
                 </span>
               </span>
               <p [innerHTML]="'I18N_LEARNER_DASHBOARD_EMPTY_FEEDBACK_THREADS' | translate" class="empty-feedback-threads"></p>
 
-              <a class="btn oppia-dashboard-intro-button oppia-transition-200 oppia-learner-dashboard-intro-button-link"
+              <a class="btn oppia-dashboard-intro-button oppia-transition-200 oppia-feedback-updates-intro-button-link"
                  [innerHTML]="'I18N_ACTION_BROWSE_LESSONS' | translate"
                  href="/learn/math"
                  [smartRouterLink]="'/' + PAGES_REGISTERED_WITH_FRONTEND.CLASSROOM.ROUTE">
@@ -233,7 +235,7 @@
             <i class="fas fa-exclamation-circle"></i>
             <span [innerHTML]="'I18N_LEARNER_DASHBOARD_FEEDBACK_THREAD_WARNING' | translate"></span>
           </div>
-          <div class="oppia-learnerdashboard-pagination-container" *ngIf="paginatedThreadsList.length > 0">
+          <div class="oppia-feedback-updates-page-pagination-container" *ngIf="paginatedThreadsList.length > 0">
             <button class="oppia-pagination-button" type="button" (click)="fetchFeedbackUpdates()">
               <span *ngIf="!loadingIndicatorIsShown">Show more</span>
               <span *ngIf="loadingIndicatorIsShown">
@@ -257,5 +259,9 @@
   }
   .oppia-box-size {
     padding: 2px 10px;
+  }
+  .feedback-updates-content-row {
+    display: flex;
+    justify-content: center;
   }
 </style>
