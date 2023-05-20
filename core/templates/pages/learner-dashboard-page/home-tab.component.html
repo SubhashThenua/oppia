@@ -118,16 +118,17 @@
               <oppia-learner-topic-summary-tile [topicSummary]="topicSummaryTile">
               </oppia-learner-topic-summary-tile>
             </div>
-            <a [href]="getClassroomLink(item.key)" target="{{ openInNewWindow ? '_blank' : '_self' }}"
-               class="oppia-classroom-link">
-              <div class="classroom-card">
-                <p class="classroom-text">
-                  <span [innerHTML]="'I18N_VIEW_ALL_TOPICS' | translate: {classroomName: item.key}"></span>
-                </p>
-              </div>
-            </a>
           </div>
         </div>
+        <a [href]="getClassroomLink(item.key)" target="{{ openInNewWindow ? '_blank' : '_self' }}"
+           class="oppia-classroom-link">
+          <div class="classroom-card">
+            <p class="classroom-text">
+              <i class="fas fa-regular fa-arrow-right" style="color: #140556;"></i>
+              <span [innerHTML]="'I18N_VIEW_ALL_TOPICS' | translate: {classroomName: item.key}"></span>
+            </p>
+          </div>
+        </a>
       </div>
     </div>
   </div>

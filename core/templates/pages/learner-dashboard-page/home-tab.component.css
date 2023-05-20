@@ -26,6 +26,7 @@
   text-transform: capitalize;
 }
 .home-tab .suggested-for-you .oppia-classroom-link {
+  display: flex;
   text-decoration: none;
 }
 .home-tab .suggested-for-you .topic-summary-tile {
@@ -52,22 +53,22 @@
   background-color: #eee ;
   border-radius: 4px;
   float: right;
-  height: 210px;
-  margin: 0 2px 30px 6px;
+  height: 44px;
+  /* margin: 0 2px 30px 6px; */
   padding: 0;
   position: relative;
-  width: 144px;
+  width: 344px;
   z-index: 5;
 }
 .home-tab .suggested-for-you .classroom-text {
   color: #333;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: bold;
   letter-spacing: 0.25px;
   position: relative;
   text-align: center;
   text-transform: capitalize;
-  top: 85px;
+  top: 15px;
 }
 .home-tab .continue-where-you-left-off .empty-continue-where-you-left-off-section-text {
   display: inline-block;
