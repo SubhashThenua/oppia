@@ -109,8 +109,9 @@
     <div class="suggested-for-you-section">
       <div *ngFor="let item of untrackedTopics | keyvalue" class="untracked-topics">
         <div *ngIf="item.value.length !== 0" class="classroom-name">
-          Basic {{item.key}}
+          <span [innerHTML]="'I18N_TOPIC_AVAILABLE_IN_OPPIA_CLASSROOM' | translate"></span>
         </div>
+        <hr>
         <div class="topic-summary-tile-scroll">
           <div class="topic-summary-tile-section d-flex"
             [ngStyle]="windowIsNarrow && {'width': getWidth(item.value.length) + 'px'}">
@@ -122,9 +123,9 @@
         </div>
         <a [href]="getClassroomLink(item.key)" target="{{ openInNewWindow ? '_blank' : '_self' }}"
            class="oppia-classroom-link">
-          <div class="classroom-card">
+          <div class="classroom-button">
             <p class="classroom-text">
-              <i class="fas fa-regular fa-arrow-right" style="color: #140556;"></i>
+              <i class="fas fa-regular fa-arrow-right rightarrow" ></i>
               <span [innerHTML]="'I18N_VIEW_ALL_TOPICS' | translate: {classroomName: item.key}"></span>
             </p>
           </div>

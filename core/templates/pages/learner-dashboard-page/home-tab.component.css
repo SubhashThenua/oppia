@@ -20,9 +20,9 @@
 }
 .home-tab .suggested-for-you .classroom-name {
   color: #333;
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 500;
-  padding: 24px 0 8px 0;
+  padding: 24px 0px 0px 0px;
   text-transform: capitalize;
 }
 .home-tab .suggested-for-you .oppia-classroom-link {
@@ -34,7 +34,7 @@
   padding-right: 20px;
 }
 .home-tab .suggested-for-you .untracked-topics {
-  width: fit-content;
+  width: auto;
 }
 .home-tab .continue-where-you-left-off .continue-where-you-left-off-heading,
 .home-tab .suggested-for-you .suggested-for-you-heading,
@@ -49,8 +49,8 @@
   font-size: 18px;
   padding-top: 32px;
 }
-.home-tab .suggested-for-you .classroom-card {
-  background-color: #eee ;
+.home-tab .suggested-for-you .classroom-button {
+  border: 1px solid #205d86;
   border-radius: 4px;
   float: right;
   height: 44px;
@@ -61,14 +61,23 @@
   z-index: 5;
 }
 .home-tab .suggested-for-you .classroom-text {
-  color: #333;
+  color: #205d86;
   font-size: 16px;
   font-weight: bold;
   letter-spacing: 0.25px;
   position: relative;
   text-align: center;
   text-transform: capitalize;
-  top: 15px;
+  top: 12px;
+}
+
+.home-tab .suggested-for-you .untracked-topics .rightarrow {
+  color: #205D86;
+  margin-right: 8px;
+}
+
+.home-tab .suggested-for-you .untracked-topics hr {
+  background-color: #00645C;;
 }
 .home-tab .continue-where-you-left-off .empty-continue-where-you-left-off-section-text {
   display: inline-block;
@@ -95,14 +104,24 @@
   box-shadow: 0 0 4px #0000001a;
   margin: 18px 0 25px 0;
   min-height: 206px;
-  padding: 17px 30px 30px 15px;
+  padding: 17px 10px 30px 15px;
   /* padding: 32px 30px 30px 40px; */
   /* width: 736px; */
 }
 .home-tab .suggested-for-you .suggested-for-you-section {
-  display: inline-block;
+  /* display: flex; */
   padding: 8px 16px 0 0;
+  overflow: hidden;
 }
+.home-tab .suggested-for-you .topic-summary-tile-scroll {
+  display: flex;
+  overflow: scroll;
+}
+
+.home-tab .suggested-for-you .topic-summary-tile-scroll::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
 .home-tab .continue-where-you-left-off .topic-summary {
   display: inline-block;
   padding-right: 30px;
