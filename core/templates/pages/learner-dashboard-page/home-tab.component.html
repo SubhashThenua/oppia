@@ -46,9 +46,9 @@
 
 
 
-
-          <div *ngIf="storyInProgress.length !== 0">
+          <div>
             <h3>In progress</h3>
+          <div class="Inprogress" *ngIf="storyInProgress.length !== 0">
             <!-- <div *ngFor="let topicSummaryTile of continueWhereYouLeftOffList" class="topic-summary">
               <div *ngFor="let storySummaryTile of topicSummaryTile.canonicalStorySummaryDicts; let i = index"
                    class="story-summary-tile">
@@ -65,15 +65,16 @@
             </div>
 
           </div>
+          </div>
 
 
 
 
 
 
-
-          <div *ngIf="storyInRecommended.length !==0">
-            <h3>Recommended for you </h3>
+        <div>
+          <h3>Recommended for you </h3>
+          <div class="Recommended" *ngIf="storyInRecommended.length !==0">
             <!-- <div *ngFor="let topicSummaryTile of continueWhereYouLeftOffList" class="topic-summary">
               <div *ngFor="let storySummaryTile of topicSummaryTile.canonicalStorySummaryDicts; let i = index"
                    class="story-summary-tile">
@@ -89,6 +90,7 @@
                 </oppia-learner-story-summary-tile>
             </div>
           </div>
+        </div>
 
 
 
