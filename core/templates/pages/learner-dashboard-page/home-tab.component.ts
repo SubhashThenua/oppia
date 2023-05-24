@@ -27,10 +27,19 @@ import { I18nLanguageCodeService } from 'services/i18n-language-code.service';
 
 import './home-tab.component.css';
 import { StorySummary } from 'domain/story/story-summary.model';
+import { LearnerDashboardBackendApiService } from 'domain/learner_dashboard/learner-dashboard-backend-api.service';
+import { CollectionSummary } from 'domain/collection/collection-summary.model';
+import { AlertsService } from 'services/alerts.service';
+import { LearnerExplorationSummary } from 'domain/summary/learner-exploration-summary.model';
+import { LearnerDashboardActivityBackendApiService } from 'domain/learner_dashboard/learner-dashboard-activity-backend-api.service';
 
 interface storySummaryTile {
   topicName: string;
   storySummary: StorySummary;
+}
+
+interface ShowMoreInSectionDict {
+  [section: string]: boolean;
 }
 
  @Component({
@@ -48,6 +57,15 @@ export class HomeTabComponent {
   @Input() partiallyLearntTopicsList!: LearnerTopicSummary[];
   @Input() untrackedTopics!: Record<string, LearnerTopicSummary[]>;
   @Input() username!: string;
+  communtiyLessonsDataLoaded: boolean = false;
+  showMoreInSection: ShowMoreInSectionDict = {
+    playlist: false
+  };
+  startIndexInPlaylist: number = 0;
+  pageSize: number = 3;
+  endIndexInPlaylist: number = 3;
+  pageNumberInPlaylist: number = 1;
+  noPlaylistActivity: boolean = false;
   currentGoalsLength!: number;
   classroomUrlFragment!: string;
   goalTopicsLength!: number;
@@ -65,10 +83,26 @@ export class HomeTabComponent {
   storyProgress!: number;
   topicSummaryTile: LearnerTopicSummary;
   storySummary: StorySummary;
+  completedCollectionsList!: CollectionSummary[];
+  incompleteCollectionsList!: CollectionSummary[];
+  completedToIncompleteCollections!: string[];
+  collectionPlaylist!: CollectionSummary[];
+  completedExplorationsList!: LearnerExplorationSummary[];
+  incompleteExplorationsList!: LearnerExplorationSummary[];
+  explorationPlaylist!: LearnerExplorationSummary[];
+  totalLessonsInPlaylist: (
+    LearnerExplorationSummary | CollectionSummary)[] = [];
+  displayLessonsInPlaylist: (
+    LearnerExplorationSummary | CollectionSummary)[] = [];
 
   constructor(
+    private alertsService: AlertsService,
     private i18nLanguageCodeService: I18nLanguageCodeService,
     private windowDimensionService: WindowDimensionsService,
+    private learnerDashboardActivityBackendApiService:
+      LearnerDashboardActivityBackendApiService,
+    private learnerDashboardBackendApiService:
+      LearnerDashboardBackendApiService,
     private urlInterpolationService: UrlInterpolationService,
   ) {}
 
@@ -88,6 +122,92 @@ export class HomeTabComponent {
         this.continueWhereYouLeftOffList.push(allGoals[index]);
       }
     }
+
+    // setActiveSection(newActiveSectionName: string): void {
+      // this.activeSection = newActiveSectionName;
+      // if (this.activeSection ===
+      //   LearnerDashboardPageConstants
+      //     .LEARNER_DASHBOARD_SECTION_I18N_IDS.COMMUNITY_LESSONS) {
+        // this.loaderService.showLoadingScreen('Loading');
+        let dashboardCollectionsDataPromise = (
+          this.learnerDashboardBackendApiService
+            .fetchLearnerDashboardCollectionsDataAsync());
+        dashboardCollectionsDataPromise.then(
+          responseData => {
+            console.log(responseData,"bhole");
+            this.completedCollectionsList = (
+              responseData.completedCollectionsList);
+            this.incompleteCollectionsList = (
+              responseData.incompleteCollectionsList);
+            this.completedToIncompleteCollections = (
+              responseData.completedToIncompleteCollections);
+            this.collectionPlaylist = responseData.collectionPlaylist;
+          }, errorResponseStatus => {
+            if (
+              AppConstants.FATAL_ERROR_CODES.indexOf(errorResponseStatus
+              ) !== -1) {
+              this.alertsService.addWarning(
+                'Failed to get learner dashboard collections data');
+            }
+          }
+        );
+  
+        let dashboardExplorationsDataPromise = (
+          this.learnerDashboardBackendApiService
+            .fetchLearnerDashboardExplorationsDataAsync());
+        dashboardExplorationsDataPromise.then(
+          responseData => {
+            this.completedExplorationsList = (
+              responseData.completedExplorationsList);
+            this.incompleteExplorationsList = (
+              responseData.incompleteExplorationsList);
+            // this.subscriptionsList = responseData.subscriptionList;
+            this.explorationPlaylist = responseData.explorationPlaylist;
+          }, errorResponseStatus => {
+            if (
+              AppConstants.FATAL_ERROR_CODES.indexOf(errorResponseStatus
+              ) !== -1) {
+              this.alertsService.addWarning(
+                'Failed to get learner dashboard explorations data');
+            }
+          }
+        );
+        Promise.all([
+          dashboardCollectionsDataPromise,
+          dashboardExplorationsDataPromise,
+        ]).then(() => {
+          setTimeout(() => {
+            // this.loaderService.hideLoadingScreen();
+            this.communtiyLessonsDataLoaded = true;
+            // So that focus is applied after the loading screen has dissapeared.
+            // this.focusManagerService.setFocusWithoutScroll('ourLessonsBtn');
+          }, 0);
+        }).catch(errorResponse => {
+          // This is placed here in order to satisfy Unit tests.
+        });
+      // }
+      // if (this.activeSection ===
+      //   LearnerDashboardPageConstants
+      //     .LEARNER_DASHBOARD_SECTION_I18N_IDS.FEEDBACK &&
+      //   this.feedbackThreadActive === true) {
+      //   this.feedbackThreadActive = false;
+      // }
+    // }
+
+
+
+    this.totalLessonsInPlaylist.push(
+      ...this.explorationPlaylist, ...this.collectionPlaylist);
+
+
+
+
+
+
+
+
+
+
 
   for(var topicSummaryTile of this.continueWhereYouLeftOffList) {
     for(var storySummary of topicSummaryTile.canonicalStorySummaryDicts) {
@@ -122,6 +242,133 @@ export class HomeTabComponent {
         this.windowIsNarrow = this.windowDimensionService.isWindowNarrow();
       }));
   }
+
+
+  handleShowMore(): void {
+  // this.showMoreInSection[section] = !this.showMoreInSection[section];
+    // if (
+    //   section === 'incomplete' && this.showMoreInSection.incomplete === true) {
+    //   this.displayIncompleteLessonsList = this.totalIncompleteLessonsList;
+    // } 
+    // else if (
+    //   section === 'incomplete' && this.showMoreInSection.incomplete === false) {
+    //   this.displayIncompleteLessonsList = this.totalIncompleteLessonsList.slice(
+    //     0, 3);
+    // } 
+    // else if (
+    //   section === 'completed' && this.showMoreInSection.completed === true) {
+    //   this.displayCompletedLessonsList = this.totalCompletedLessonsList;
+    // } 
+    // else if (
+    //   section === 'completed' && this.showMoreInSection.completed === false) {
+    //   this.displayCompletedLessonsList = this.totalCompletedLessonsList.slice(
+    //     0, 3);
+    // }
+    if 
+    //  (section === 'playlist' && this.showMoreInSection.playlist === true)
+     (this.showMoreInSection.playlist === true) {
+      this.displayLessonsInPlaylist = this.totalLessonsInPlaylist;
+      this.startIndexInPlaylist = 0;
+      this.endIndexInPlaylist = this.totalLessonsInPlaylist.length;
+    } else if 
+    // (section === 'playlist' && this.showMoreInSection.playlist === false)
+      (this.showMoreInSection.playlist === false) {
+      this.startIndexInPlaylist = 0;
+      this.endIndexInPlaylist = this.pageSize;
+    }
+  }
+
+
+  openRemoveActivityModal(
+    sectionNameI18nId: string, subsectionName: string,
+    activity: LearnerExplorationSummary | CollectionSummary): void {
+  this.learnerDashboardActivityBackendApiService.removeActivityModalAsync(
+    sectionNameI18nId, subsectionName,
+    activity.id, activity.title)
+    .then(() => {
+      // if (sectionNameI18nId ===
+      //   LearnerDashboardPageConstants
+      //     .LEARNER_DASHBOARD_SECTION_I18N_IDS.INCOMPLETE) {
+      //   if (subsectionName ===
+      //     LearnerDashboardPageConstants
+      //       .LEARNER_DASHBOARD_SUBSECTION_I18N_IDS.EXPLORATIONS) {
+      //     let index = this.totalIncompleteLessonsList.findIndex(
+      //       exp => exp.id === activity.id);
+      //     if (index !== -1) {
+      //       this.totalIncompleteLessonsList.splice(index, 1);
+      //     }
+      //   } else if (subsectionName ===
+      //     LearnerDashboardPageConstants
+      //       .LEARNER_DASHBOARD_SUBSECTION_I18N_IDS.COLLECTIONS) {
+      //     let index = this.totalIncompleteLessonsList.findIndex(
+      //       collection => collection.id === activity.id);
+      //     if (index !== -1) {
+      //       this.totalIncompleteLessonsList.splice(index, 1);
+      //     }
+      //   } if (this.showMoreInSection.incomplete === true) {
+      //     this.displayIncompleteLessonsList = (
+      //       this.totalIncompleteLessonsList);
+      //   } else if (this.showMoreInSection.incomplete === false) {
+      //     this.displayIncompleteLessonsList = (
+      //       this.totalIncompleteLessonsList.slice(0, 3));
+      //   } if (this.selectedSection === this.all) {
+      //     this.displayInCommunityLessons = [];
+      //     this.displayInCommunityLessons.push(
+      //       ...this.totalIncompleteLessonsList,
+      //       ...this.totalCompletedLessonsList);
+      //   } if (this.displayInCommunityLessons.slice(
+      //     this.startIndexInCommunityLessons,
+      //     this.endIndexInCommunityLessons).length === 0) {
+      //     this.pageNumberInCommunityLessons = 1;
+      //     this.startIndexInCommunityLessons = 0;
+      //     this.endIndexInCommunityLessons = 3;
+      //   }
+      // } 
+      if (sectionNameI18nId ===
+        LearnerDashboardPageConstants
+          .LEARNER_DASHBOARD_SECTION_I18N_IDS.PLAYLIST) {
+        if (subsectionName ===
+          LearnerDashboardPageConstants
+            .LEARNER_DASHBOARD_SUBSECTION_I18N_IDS.EXPLORATIONS) {
+          let index = this.totalLessonsInPlaylist.findIndex(
+            exp => exp.id === activity.id);
+          if (index !== -1) {
+            this.totalLessonsInPlaylist.splice(index, 1);
+          }
+        } else if (subsectionName ===
+          LearnerDashboardPageConstants
+            .LEARNER_DASHBOARD_SUBSECTION_I18N_IDS.COLLECTIONS) {
+          let index = this.totalLessonsInPlaylist.findIndex(
+            collection => collection.id === activity.id);
+          if (index !== -1) {
+            this.totalLessonsInPlaylist.splice(index, 1);
+          }
+        } if (this.showMoreInSection.playlist === true) {
+          this.displayLessonsInPlaylist = this.totalLessonsInPlaylist;
+        } else if (this.showMoreInSection.playlist === false) {
+          this.displayLessonsInPlaylist = (
+            this.totalLessonsInPlaylist.slice(0, 3));
+        } if (this.windowIsNarrow) {
+          this.displayLessonsInPlaylist = this.totalLessonsInPlaylist;
+        } if (this.displayLessonsInPlaylist.slice(
+          this.startIndexInPlaylist,
+          this.endIndexInPlaylist).length === 0) {
+          this.pageNumberInPlaylist = 1;
+          this.startIndexInPlaylist = 0;
+          this.endIndexInPlaylist = 3;
+        }
+      }
+      // this.noCommunityLessonActivity = (
+      //   (this.totalIncompleteLessonsList.length === 0) &&
+      //   (this.totalCompletedLessonsList.length === 0));
+      this.noPlaylistActivity = (
+        (this.totalLessonsInPlaylist.length === 0));
+    });
+}
+  
+isLanguageRTL(): boolean {
+  return this.i18nLanguageCodeService.isCurrentLanguageRTL();
+}
 
   getTimeOfDay(): string {
     let time = new Date().getHours();
