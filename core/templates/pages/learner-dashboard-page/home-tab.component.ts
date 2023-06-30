@@ -46,7 +46,7 @@ export class HomeTabComponent {
   @Input() untrackedTopics!: Record<string, LearnerTopicSummary[]>;
   @Input() username!: string;
   explorationProgress!: ChapterProgressSummary[];
-  expIds: string[] = ['AkaorLQx5bBQ', 'verb1ixpFPFb', '5359aGbB3WIx'];
+  expIds: string[] = ['AfEoLA8IrHv1'];
   currentGoalsLength!: number;
   classroomUrlFragment!: string;
   goalTopicsLength!: number;
@@ -87,7 +87,7 @@ export class HomeTabComponent {
 
     this.readOnlyExplorationBackendApiService.
       fetchProgressInExplorationsOrChapters(
-        'shivv', this.expIds
+        this.expIds
       ).then(explorationProgress => {
         this.explorationProgress = explorationProgress;
         console.error(explorationProgress, 'progressof exploration .....');

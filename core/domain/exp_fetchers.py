@@ -705,7 +705,7 @@ def get_user_progress_in_exploration(
         user_models.ExplorationUserDataModel.get_multi(
             user_id_exp_id_combinations))
 
-    all_chapters_progress: List[
+    all_exploration_progress: List[
         exp_domain.ExplorationProgressSummaryDict] = []
     for i, user_id_exp_id_pair in enumerate(user_id_exp_id_combinations):
         exp_id = user_id_exp_id_pair[1]
@@ -721,10 +721,10 @@ def get_user_progress_in_exploration(
             if most_recently_visited_checkpoint is not None:
                 visited_checkpoints = all_checkpoints.index(
                     most_recently_visited_checkpoint) + 1
-        all_chapters_progress.append({
+        all_exploration_progress.append({
             'exploration_id': exp_id,
             'visited_checkpoints_count': visited_checkpoints,
             'total_checkpoints_count': len(all_checkpoints)
         })
 
-    return all_chapters_progress
+    return all_exploration_progress

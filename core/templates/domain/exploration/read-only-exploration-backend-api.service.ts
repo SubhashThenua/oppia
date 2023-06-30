@@ -274,23 +274,15 @@ export class ReadOnlyExplorationBackendApiService {
   /**
    * Retrives the Progress of exploratin
    * chapters are nothing but exploration.
-   * The exploration used in story are called chaptes.
+   * The exploration used in story are called chapters.
    * To reduce the code redundacy, ChapterProgressSummay Model is used.
    */
 
   async fetchProgressInExplorationsOrChapters(
-      username: string,
       expIds: string[]
   ): Promise<ChapterProgressSummary[]> {
     return new Promise((resolve, reject) => {
-      const explorationProgressUrl = (
-        this.urlInterpolationService.interpolateUrl(
-          '/user_progress_in_explorations_handler/<username>', {
-            username: username
-          }
-        )
-      );
-
+      const explorationProgressUrl = ('/user_progress_in_explorations_handler');
       this.http.get<ChapterProgressSummaryBackendDict[]>(
         explorationProgressUrl, {
           params: {

@@ -488,22 +488,23 @@ class LearnerExplorationProgressHandlerNormalizedRequestDict(TypedDict):
 
 class LearnerExplorationProgressHandler(
     base.BaseHandler[
-        Dict[str, str],
+        List[str],
         LearnerExplorationProgressHandlerNormalizedRequestDict
     ]
 ):
     """Handles fetching progress of a user in all exploration"""
 
     GET_HANDLER_ERROR_RETURN_TYPE = feconf.HANDLER_TYPE_JSON
+    URL_PATH_ARGS_SCHEMAS: List[str] = {}
 
-    URL_PATH_ARGS_SCHEMAS = {
-        'username': {
-            'schema': {
-                'type': 'basestring',
-            },
-            'default_value': ''
-        }
-    }
+    # URL_PATH_ARGS_SCHEMAS = {
+    #     'username': {
+    #         'schema': {
+    #             'type': 'basestring',
+    #         },
+    #         'default_value': ''
+    #     }
+    # }
 
     HANDLER_ARGS_SCHEMAS = {
         'GET': {
@@ -522,15 +523,16 @@ class LearnerExplorationProgressHandler(
     # value. Also, once the value type is changed, please remove
     # List[Mapping[str, Any]] from render_json's argument type.
     @acl_decorators.can_access_learner_dashboard
-    def get(self, username: str) -> None:
+    def get(self) -> None:
         """Handles GET requests."""
         assert self.normalized_request is not None
         exp_ids = self.normalized_request['exp_ids']
-        user_id = user_services.get_user_id_from_username(username)
+        # user_id = user_services.get_user_id_from_username(username)
+        user_id = self.user_id
         if user_id is None:
             raise Exception(
                 'No learner user_id found for the given learner username: %s' %
-                username
+                self.username
             )
 
         exploration_progress = (
