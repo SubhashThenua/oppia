@@ -691,14 +691,6 @@ def get_user_progress_in_exploration(
         list(ExplorationProgressSummaryDict). The list of the progress
         summaries of the user corresponding to all exploration.
     """
-    # all_valid_story_nodes: List[story_domain.StoryNode] = []
-    # for story in get_stories_by_ids(story_ids):
-    #     if story is not None:
-    #         all_valid_story_nodes.extend(story.story_contents.nodes)
-    # exp_ids = [
-    #     node.exploration_id for node in all_valid_story_nodes
-    #     if node.exploration_id
-    # ]
     exp_id_to_exp_map = exp_fetchers.get_multiple_explorations_by_id(exp_ids)
     user_id_exp_id_combinations = list(itertools.product([user_id], exp_ids))
     exp_user_data_models = (

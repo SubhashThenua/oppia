@@ -497,15 +497,6 @@ class LearnerExplorationProgressHandler(
     GET_HANDLER_ERROR_RETURN_TYPE = feconf.HANDLER_TYPE_JSON
     URL_PATH_ARGS_SCHEMAS: List[str] = {}
 
-    # URL_PATH_ARGS_SCHEMAS = {
-    #     'username': {
-    #         'schema': {
-    #             'type': 'basestring',
-    #         },
-    #         'default_value': ''
-    #     }
-    # }
-
     HANDLER_ARGS_SCHEMAS = {
         'GET': {
             'exp_ids': {
@@ -527,7 +518,6 @@ class LearnerExplorationProgressHandler(
         """Handles GET requests."""
         assert self.normalized_request is not None
         exp_ids = self.normalized_request['exp_ids']
-        # user_id = user_services.get_user_id_from_username(username)
         user_id = self.user_id
         if user_id is None:
             raise Exception(
